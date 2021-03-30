@@ -8,6 +8,11 @@ public class VantageOutPut {
 
 	@JsonProperty("Global Quote")
 	Stock stock;
+	
+	public VantageOutPut(Stock stock) {
+		super();
+		this.stock = stock;
+	}
 
 	public VantageOutPut() {
 

@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/users/register").antMatchers("/users");
+        web.ignoring().antMatchers("/api/users/register").antMatchers("/api/users");
     }
 
     @Bean
