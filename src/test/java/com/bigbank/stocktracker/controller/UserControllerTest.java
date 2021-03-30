@@ -39,7 +39,7 @@ public class UserControllerTest {
     public void whenUserRegistersAssertUserJsonReturned() throws Exception {
     	User user = new User("admin", "password");
     	when(userService.register(any())).thenReturn(user);
-    	
+   
         this.mvc.perform(post("/api/users/register")
         	      .contentType(MediaType.APPLICATION_JSON)
         	      .content("{\"username\": \"admin\",\"password\": \"pass\"}"))

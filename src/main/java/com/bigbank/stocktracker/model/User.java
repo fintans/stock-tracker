@@ -1,11 +1,19 @@
 package com.bigbank.stocktracker.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -19,9 +27,23 @@ public class User implements UserDetails {
 	/**
 	 * 
 	 */
-	private @Id @GeneratedValue long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private @NotBlank String username;
 	private @NotBlank String password;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn( name = "stock_id", referencedColumnName = "id")
+	private List<Stock> stockFavourites = new ArrayList<>();
+
+	public List<Stock> getStockFavourites() {
+		return stockFavourites;
+	}
+
+	public void setStockFavourites(List<Stock> stockFavourites) {
+		this.stockFavourites = stockFavourites;
+	}
 
 	public User() {
 	}
