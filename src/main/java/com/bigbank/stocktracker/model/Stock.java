@@ -23,6 +23,8 @@ public class Stock {
 
 	@JsonProperty("05. price")
 	private float price;
+	
+	
 
 	public String getSymbol() {
 		return symbol;

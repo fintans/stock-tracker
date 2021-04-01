@@ -20,7 +20,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
-
+    
+	/**
+	 * DB authentication using CustomUserDetailsService
+	 * @return DaoAuthenticationProvider containing userdetails
+	 */
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -46,6 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       http.csrf().disable();
+       http.authorizeRequests().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
     }
 }

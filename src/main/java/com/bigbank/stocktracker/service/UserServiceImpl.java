@@ -5,7 +5,6 @@ import static com.bigbank.stocktracker.util.ErrorReason.USER_NOT_EXISTS;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +32,11 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	StockTrackerService stockTrackerService;
 	
+	/**
+	 * Adds user to db
+	 * @param user user to be registered
+	 * @return User the user that has been added to db
+	 */
 	@Override
     public User register(User user) {
     	if(userRepository.findByUserName(user.getUsername()).isPresent()) {
@@ -45,6 +49,11 @@ public class UserServiceImpl implements UserService {
     	}
     }
 	
+	/**
+	 * Adds a stock to a users list of favourite stocks
+	 * @param symbol stock name
+	 * @return list containing users favourite stocks
+	 */
 	@Override
 	public List<Stock> addStockToFavourites(String symbol) {
 		VantageOutPut vantageOutPut = stockTrackerService.getStock(symbol).block();
@@ -60,28 +69,35 @@ public class UserServiceImpl implements UserService {
     		}
     		return stockFavourites;
     	} else {
-    		throw new UserAlreadyExistsException(USER_NOT_EXISTS.toString());
+    		throw new UserNotExistsException(USER_NOT_EXISTS.toString());
     	}
 	}
 	
+	/**
+	 * Removes a stock to a users list of favourite stocks
+	 * @param symbol stock name
+	 * @return list containing users favourite stocks
+	 */
 	@Override
 	public List<Stock> removeStockFromFavourites(String symbol) {
 		Optional<User> userOptional = userRepository.findByUserName(this.getPrincipalUser());
 		
     	if(userOptional.isPresent()) {
     		User user = userOptional.get();
-    		List<Stock> stockFavourites = user.getStockFavourites();
-    		
+    		List<Stock> stockFavourites = user.getStockFavourites();    		
     		stockFavourites.removeIf(stock -> stock.getSymbol().equalsIgnoreCase(symbol));
-    	//	user.setStockFavourites(stockFavourites);
     		userRepository.save(user);
     		
     		return stockFavourites;
     	} else {
-    		throw new UserAlreadyExistsException(USER_NOT_EXISTS.toString());
+    		throw new UserNotExistsException(USER_NOT_EXISTS.toString());
     	}
 	}
 	
+	/**
+	 * Gets the current user from security context based on basic auth
+	 * @return String containing name of current user
+	 */
 	private String getPrincipalUser() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
@@ -90,9 +106,5 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
 		return userRepository.findAll();
     }
-
-	
-	
-	
 
 }

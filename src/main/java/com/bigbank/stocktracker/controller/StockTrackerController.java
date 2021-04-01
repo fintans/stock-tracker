@@ -26,17 +26,13 @@ public class StockTrackerController {
 	@Autowired
 	StockTrackerService stockTrackerService;
 	
+	/**
+	 * Returns stock data based on user search
+	 * @param stock name
+	 * @return Mono containing stock data
+	 */
 	@ResponseBody
 	@GetMapping("/stock/{symbol}") ResponseEntity<Mono<VantageOutPut>> getStock(@PathVariable(value = "symbol") String symbol) {
-		logger.info("HELLO" + symbol);
-		Mono<VantageOutPut> stock = stockTrackerService.getStock(symbol);
-		HttpStatus status = stock != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-		return new ResponseEntity<Mono<VantageOutPut>>(stock, status);
-	}
-	
-	@ResponseBody
-	@GetMapping("/stock/{symbol}/favourites") ResponseEntity<Mono<VantageOutPut>> addStockToFavourites(@PathVariable(value = "symbol") String symbol) {
-		logger.info("HELLO" + symbol);
 		Mono<VantageOutPut> stock = stockTrackerService.getStock(symbol);
 		HttpStatus status = stock != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 		return new ResponseEntity<Mono<VantageOutPut>>(stock, status);

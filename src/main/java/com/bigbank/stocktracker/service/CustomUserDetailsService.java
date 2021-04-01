@@ -25,7 +25,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public CustomUserDetailsService() {
 		super();
 	}
-
+	
+	/**
+	 * Locates current user from db for authentication 
+	 * @param username current user
+	 * @return UserDetails
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) {
 		logger.info("loadUserByUsername()");
