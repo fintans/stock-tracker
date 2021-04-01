@@ -31,6 +31,10 @@ The app allows user to regiter. The user can then query other end points with ba
 The app then checks the db against the user retrieved from the basic auth in the request. If there is a match, the user can successfully carry out thier request as they are
 an authenticted user. This is also how stocks are saved for the user in the db.
 
+Things to fix:
+Adds null to user favorites if they search for a non existant stock
+Allows search for any available stock from AlphaVantage, not just NYSE stocks.
+
 Things to improve:  
 Currently the app uses a blocking request to save stocks to the db (user favourites), a non blocking call would be better.  
 The app needs to send a new request to get updated stock info rather than using a stream, where user would have real time stock updates.  
